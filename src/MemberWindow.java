@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MemberWindow extends JFrame {
 
@@ -20,6 +22,22 @@ public class MemberWindow extends JFrame {
         eventList = new JList<>(eventModel);
 
         refreshEvents();
+
+        eventList.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if(e.getClickCount() == 2) {
+
+                    Event selected = eventList.getSelectedValue();
+
+                    if(selected != null) {
+                        new EventDetailWindow(selected, user);
+                    }
+                }
+            }
+        });
 
         add(new JScrollPane(eventList), BorderLayout.CENTER);
 
