@@ -1,3 +1,5 @@
+package Model.User;
+
 /**
  * Subclass representing a standard Member.
  */

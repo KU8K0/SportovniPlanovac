@@ -1,3 +1,10 @@
+package UI;
+
+import Listener.DataChangedListener;
+import Model.Event.Event;
+import Model.Group.Group;
+import Model.User.User;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -8,7 +15,7 @@ public class MemberWindow extends JFrame implements DataChangedListener {
 
     private Group group;
     private User user;
-    private DefaultListModel<Event> eventModel;
+    private DefaultListModel<Model.Event.Event> eventModel;
     private JList<Event> eventList;
 
     public MemberWindow(Group group, User user) {
@@ -47,7 +54,7 @@ public class MemberWindow extends JFrame implements DataChangedListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    Event selectedEvent = eventList.getSelectedValue();
+                    Model.Event.Event selectedEvent = eventList.getSelectedValue();
                     if (selectedEvent != null) new EventDetailWindow(selectedEvent, user);
                 }
             }
@@ -63,6 +70,6 @@ public class MemberWindow extends JFrame implements DataChangedListener {
     @Override
     public void onDataChanged() {
         eventModel.clear();
-        for (Event e : group.getEvents()) eventModel.addElement(e);
+        for (Model.Event.Event e : group.getEvents()) eventModel.addElement(e);
     }
 }

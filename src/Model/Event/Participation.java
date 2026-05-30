@@ -1,3 +1,7 @@
+package Model.Event;
+
+import Model.User.User;
+
 public class Participation {
 
     private User user;

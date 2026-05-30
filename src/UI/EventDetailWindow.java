@@ -1,3 +1,9 @@
+package UI;
+
+import Model.Event.Event;
+import Model.Event.Participation;
+import Model.User.User;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -10,16 +16,16 @@ public class EventDetailWindow extends JFrame {
     private JList<Participation> participationList;
     private JLabel statsLabel;
 
-    public EventDetailWindow(Event event, User user) {
+    public EventDetailWindow(Model.Event.Event event, User user) {
         this.event = event;
         this.user = user;
 
-        setTitle("Event Detail: " + event.getTitle());
+        setTitle("Model.Event.Event Detail: " + event.getTitle());
         setSize(500, 600);
         setLayout(new BorderLayout(10, 10));
         setLocationRelativeTo(null);
 
-        // --- TOP PANEL: Event Information ---
+        // --- TOP PANEL: Model.Event.Event Information ---
         JPanel infoPanel = new JPanel(new GridLayout(0, 1, 5, 5));
         infoPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
         infoPanel.setBackground(new Color(236, 240, 241));
@@ -87,7 +93,7 @@ public class EventDetailWindow extends JFrame {
     }
 
     private void handleParticipation(boolean attending) {
-        String note = JOptionPane.showInputDialog(this, "Add a note (optional):", "Participation Note", JOptionPane.PLAIN_MESSAGE);
+        String note = JOptionPane.showInputDialog(this, "Add a note (optional):", "Model.Event.Participation Note", JOptionPane.PLAIN_MESSAGE);
         if (note == null) note = ""; // If user clicks Cancel
 
         Participation p = new Participation(user, event, attending, note);

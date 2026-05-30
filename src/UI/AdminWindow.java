@@ -1,3 +1,12 @@
+package UI;
+
+import Listener.DataChangedListener;
+import Model.Event.Event;
+import Model.Group.Group;
+import Model.User.Admin;
+import Model.User.Member;
+import Model.User.User;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -97,7 +106,6 @@ public class AdminWindow extends JFrame implements DataChangedListener {
         memberList.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panel.add(new JScrollPane(memberList), BorderLayout.CENTER);
 
-        // Add Member Form
         JPanel addMemberPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         addMemberPanel.setBorder(BorderFactory.createTitledBorder("Register New Person"));
 

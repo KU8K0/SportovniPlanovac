@@ -1,3 +1,5 @@
+package Model.User;
+
 /**
  * Abstract class representing a general user in the system.
  */

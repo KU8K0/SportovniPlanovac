@@ -1,3 +1,8 @@
+package UI;
+
+import Model.Group.Group;
+import Model.User.Admin;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

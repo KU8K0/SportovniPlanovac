@@ -1,3 +1,10 @@
+package UI;
+
+import Listener.DataChangedListener;
+import Model.Event.Event;
+import Model.Group.Group;
+import Model.User.User;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -102,7 +109,7 @@ public class CalendarWindow extends JFrame implements DataChangedListener {
         panel.add(dayLabel, BorderLayout.NORTH);
 
         // Check if there are events on this day
-        ArrayList<Event> dayEvents = new ArrayList<>();
+        ArrayList<Model.Event.Event> dayEvents = new ArrayList<>();
         for (Event e : group.getEvents()) {
             if (e.getDateTime().toLocalDate().equals(date)) {
                 dayEvents.add(e);
@@ -114,7 +121,7 @@ public class CalendarWindow extends JFrame implements DataChangedListener {
             JPanel eventContainer = new JPanel(new GridLayout(0, 1, 2, 2));
             eventContainer.setOpaque(false);
 
-            for (Event e : dayEvents) {
+            for (Model.Event.Event e : dayEvents) {
                 JButton eventBtn = new JButton(e.getTitle());
                 eventBtn.setFont(new Font("Segoe UI", Font.PLAIN, 10));
                 eventBtn.setBackground(new Color(52, 152, 219));
