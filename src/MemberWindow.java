@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MemberWindow extends JFrame {
+public class MemberWindow extends JFrame implements DataChangedListener {
 
     private Group group;
     private User user;
@@ -15,7 +15,10 @@ public class MemberWindow extends JFrame {
         this.group = group;
         this.user = user;
 
-        setTitle("ČLEN - " + user.getName());
+        // Register listener to update UI when admin adds an event
+        group.addListener(this);
+
+        setTitle("MEMBER - " + user.getName());
         setSize(450, 400);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -24,7 +27,7 @@ public class MemberWindow extends JFrame {
         mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         mainPanel.setBackground(new Color(240, 242, 245));
 
-        JLabel titleLabel = new JLabel("Tvoje tréninky: " + group.getName());
+        JLabel titleLabel = new JLabel("Your Events: " + group.getName());
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -33,6 +36,7 @@ public class MemberWindow extends JFrame {
         eventList.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         eventList.setFixedCellHeight(35);
 
+        // Open event detail on double click
         eventList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -43,7 +47,7 @@ public class MemberWindow extends JFrame {
             }
         });
 
-        JLabel helpLabel = new JLabel("<html><center>Nové akce se zobrazí automaticky.<br>Dvojklikem se přihlásíš.</center></html>");
+        JLabel helpLabel = new JLabel("<html><center>New events appear automatically.<br>Double-click to participate.</center></html>");
         helpLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
         helpLabel.setForeground(Color.GRAY);
         helpLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -54,16 +58,16 @@ public class MemberWindow extends JFrame {
 
         add(mainPanel);
 
-        // AUTOMATICKÝ REFRESH (synchronizace s adminem)
-        new Timer(1000, e -> refreshEvents()).start();
-
+        // Initial load
+        onDataChanged();
         setVisible(true);
     }
 
-    private void refreshEvents() {
-        if (eventModel.getSize() != group.getEvents().size()) {
-            eventModel.clear();
-            for (Event e : group.getEvents()) eventModel.addElement(e);
+    @Override
+    public void onDataChanged() {
+        eventModel.clear();
+        for (Event e : group.getEvents()) {
+            eventModel.addElement(e);
         }
     }
 }

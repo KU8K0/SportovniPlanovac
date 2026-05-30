@@ -1,23 +1,24 @@
-public class User {
+/**
+ * Abstract class representing a general user in the system.
+ */
+public abstract class User {
 
     private String name;
-    private boolean admin;
 
-    public User(String name, boolean admin) {
+    public User(String name) {
         this.name = name;
-        this.admin = admin;
     }
 
     public String getName() {
         return name;
     }
 
-    public boolean isAdmin() {
-        return admin;
-    }
+    // Abstract methods to be implemented by subclasses
+    public abstract boolean isAdmin();
+    public abstract String getRoleName();
 
     @Override
     public String toString() {
-        return name;
+        return name + " (" + getRoleName() + ")";
     }
 }

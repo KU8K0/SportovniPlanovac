@@ -4,8 +4,8 @@ public class Main {
 
         Group group = new Group("HC Tigers");
 
-        User admin = new User("Karel", true);
-        User member = new User("Petr", false);
+        User admin = new Admin("Karel");
+        User member = new Member("Petr");
 
         group.addMember(admin);
         group.addMember(member);

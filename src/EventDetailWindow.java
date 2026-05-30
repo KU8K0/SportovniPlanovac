@@ -14,12 +14,12 @@ public class EventDetailWindow extends JFrame {
         this.event = event;
         this.user = user;
 
-        setTitle("Detail akce: " + event.getTitle());
+        setTitle("Event Detail: " + event.getTitle());
         setSize(500, 600);
         setLayout(new BorderLayout(10, 10));
         setLocationRelativeTo(null);
 
-        // --- HORNÍ PANEL: Informace o akci ---
+        // --- TOP PANEL: Event Information ---
         JPanel infoPanel = new JPanel(new GridLayout(0, 1, 5, 5));
         infoPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
         infoPanel.setBackground(new Color(236, 240, 241));
@@ -27,7 +27,7 @@ public class EventDetailWindow extends JFrame {
         JLabel titleLbl = new JLabel(event.getTitle());
         titleLbl.setFont(new Font("Segoe UI", Font.BOLD, 22));
 
-        JLabel dateLbl = new JLabel("📅 " + event.getDate());
+        JLabel dateLbl = new JLabel("📅 " + event.getFormattedDate());
         dateLbl.setFont(new Font("Segoe UI", Font.ITALIC, 14));
 
         JTextArea descArea = new JTextArea(event.getDescription());
@@ -42,32 +42,32 @@ public class EventDetailWindow extends JFrame {
         infoPanel.add(new JSeparator());
         infoPanel.add(descArea);
 
-        // --- STŘEDNÍ PANEL: Seznam účastníků a statistiky ---
+        // --- CENTER PANEL: Participants List and Statistics ---
         JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
         centerPanel.setBorder(new EmptyBorder(0, 15, 0, 15));
 
-        statsLabel = new JLabel("Statistiky načítání...");
+        statsLabel = new JLabel("Loading stats...");
         statsLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
         statsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         statsLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
 
         participationModel = new DefaultListModel<>();
         participationList = new JList<>(participationModel);
-        participationList.setCellRenderer(new ParticipationRenderer()); // Vlastní barvičky
+        participationList.setCellRenderer(new ParticipationRenderer());
 
         centerPanel.add(statsLabel, BorderLayout.NORTH);
         centerPanel.add(new JScrollPane(participationList), BorderLayout.CENTER);
 
-        // --- SPODNÍ PANEL: Tlačítka ---
+        // --- BOTTOM PANEL: Buttons ---
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         buttonPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
-        JButton yesButton = new JButton("✔ Zúčastním se");
+        JButton yesButton = new JButton("✔ I will attend");
         yesButton.setBackground(new Color(46, 204, 113));
         yesButton.setForeground(Color.WHITE);
         yesButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        JButton noButton = new JButton("❌ Nepřijdu");
+        JButton noButton = new JButton("❌ I cannot attend");
         noButton.setBackground(new Color(231, 76, 60));
         noButton.setForeground(Color.WHITE);
         noButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -87,8 +87,8 @@ public class EventDetailWindow extends JFrame {
     }
 
     private void handleParticipation(boolean attending) {
-        String note = JOptionPane.showInputDialog(this, "Přidej poznámku (nepovinné):", "Poznámka k účasti", JOptionPane.PLAIN_MESSAGE);
-        if (note == null) note = ""; // Pokud uživatel dá Cancel
+        String note = JOptionPane.showInputDialog(this, "Add a note (optional):", "Participation Note", JOptionPane.PLAIN_MESSAGE);
+        if (note == null) note = ""; // If user clicks Cancel
 
         Participation p = new Participation(user, event, attending, note);
         event.addOrUpdateParticipation(p);
@@ -107,10 +107,10 @@ public class EventDetailWindow extends JFrame {
         int total = event.getParticipations().size();
         int noCount = total - yesCount;
 
-        statsLabel.setText(String.format("PŘIHLÁŠENO: %d  |  OMLUVENO: %d  |  CELKEM REAGOVALO: %d", yesCount, noCount, total));
+        statsLabel.setText(String.format("ATTENDING: %d  |  ABSENT: %d  |  TOTAL RESPONSES: %d", yesCount, noCount, total));
     }
 
-    // Vnitřní třída pro barvení seznamu
+    // Inner class for custom rendering of list items
     private static class ParticipationRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -119,10 +119,10 @@ public class EventDetailWindow extends JFrame {
 
             if (p.isAttending()) {
                 label.setForeground(new Color(39, 174, 96));
-                label.setText("● " + p.getUser().getName() + " (JDE) - " + p.getNote());
+                label.setText("● " + p.getUser().getName() + " (ATTENDING) - " + p.getNote());
             } else {
                 label.setForeground(new Color(192, 57, 43));
-                label.setText("○ " + p.getUser().getName() + " (NEJDE) - " + p.getNote());
+                label.setText("○ " + p.getUser().getName() + " (ABSENT) - " + p.getNote());
             }
 
             label.setBorder(new EmptyBorder(5, 5, 5, 5));
