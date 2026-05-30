@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main data controller for the team.
+ */
 public class Group {
-
     private String name;
     private ArrayList<User> members;
     private ArrayList<Event> events;
-
-    // List of listeners (windows) to update when data changes
     private List<DataChangedListener> listeners;
 
     public Group(String name) {
@@ -17,9 +17,10 @@ public class Group {
         this.listeners = new ArrayList<>();
     }
 
-    public void addListener(DataChangedListener listener) {
-        listeners.add(listener);
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; notifyListeners(); }
+
+    public void addListener(DataChangedListener listener) { listeners.add(listener); }
 
     private void notifyListeners() {
         for (DataChangedListener listener : listeners) {
@@ -42,7 +43,11 @@ public class Group {
         notifyListeners();
     }
 
+    public void removeEvent(Event event) {
+        events.remove(event);
+        notifyListeners();
+    }
+
     public ArrayList<User> getMembers() { return members; }
     public ArrayList<Event> getEvents() { return events; }
-    public String getName() { return name; }
 }

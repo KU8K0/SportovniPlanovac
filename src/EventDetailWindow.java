@@ -27,7 +27,7 @@ public class EventDetailWindow extends JFrame {
         JLabel titleLbl = new JLabel(event.getTitle());
         titleLbl.setFont(new Font("Segoe UI", Font.BOLD, 22));
 
-        JLabel dateLbl = new JLabel("📅 " + event.getFormattedDate());
+        JLabel dateLbl = new JLabel(event.getFormattedDate());
         dateLbl.setFont(new Font("Segoe UI", Font.ITALIC, 14));
 
         JTextArea descArea = new JTextArea(event.getDescription());
@@ -62,12 +62,12 @@ public class EventDetailWindow extends JFrame {
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
         buttonPanel.setBorder(new EmptyBorder(15, 15, 15, 15));
 
-        JButton yesButton = new JButton("✔ I will attend");
+        JButton yesButton = new JButton("I will attend");
         yesButton.setBackground(new Color(46, 204, 113));
         yesButton.setForeground(Color.WHITE);
         yesButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        JButton noButton = new JButton("❌ I cannot attend");
+        JButton noButton = new JButton("I cannot attend");
         noButton.setBackground(new Color(231, 76, 60));
         noButton.setForeground(Color.WHITE);
         noButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
