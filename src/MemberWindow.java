@@ -15,28 +15,34 @@ public class MemberWindow extends JFrame implements DataChangedListener {
         this.group = group;
         this.user = user;
 
-        // Register listener to update UI when admin adds an event
         group.addListener(this);
 
         setTitle("MEMBER - " + user.getName());
-        setSize(450, 400);
+        setSize(450, 450);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
 
-        JPanel mainPanel = new JPanel(new BorderLayout(15, 15));
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
-        mainPanel.setBackground(new Color(240, 242, 245));
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        JLabel titleLabel = new JLabel("Your Events: " + group.getName());
+        JLabel titleLabel = new JLabel("Events: " + group.getName());
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JButton openCalendarBtn = new JButton("📅 CALENDAR");
+        openCalendarBtn.addActionListener(e -> new CalendarWindow(group, user));
+
+        topPanel.add(titleLabel, BorderLayout.WEST);
+        topPanel.add(openCalendarBtn, BorderLayout.EAST);
+        add(topPanel, BorderLayout.NORTH);
+
+        JPanel mainPanel = new JPanel(new BorderLayout(15, 15));
+        mainPanel.setBorder(new EmptyBorder(10, 20, 20, 20));
 
         eventModel = new DefaultListModel<>();
         eventList = new JList<>(eventModel);
         eventList.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         eventList.setFixedCellHeight(35);
 
-        // Open event detail on double click
         eventList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -47,18 +53,9 @@ public class MemberWindow extends JFrame implements DataChangedListener {
             }
         });
 
-        JLabel helpLabel = new JLabel("<html><center>New events appear automatically.<br>Double-click to participate.</center></html>");
-        helpLabel.setFont(new Font("Segoe UI", Font.ITALIC, 11));
-        helpLabel.setForeground(Color.GRAY);
-        helpLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
         mainPanel.add(new JScrollPane(eventList), BorderLayout.CENTER);
-        mainPanel.add(helpLabel, BorderLayout.SOUTH);
+        add(mainPanel, BorderLayout.CENTER);
 
-        add(mainPanel);
-
-        // Initial load
         onDataChanged();
         setVisible(true);
     }
@@ -66,8 +63,6 @@ public class MemberWindow extends JFrame implements DataChangedListener {
     @Override
     public void onDataChanged() {
         eventModel.clear();
-        for (Event e : group.getEvents()) {
-            eventModel.addElement(e);
-        }
+        for (Event e : group.getEvents()) eventModel.addElement(e);
     }
 }
